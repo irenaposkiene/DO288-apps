@@ -1,0 +1,26 @@
+FROM registry.access.redhat.com/ubi8/ubi:8.0
+
+MAINTAINER Red Hat Training <training@redhat.com>
+
+# DocumentRoot for Apache
+
+
+
+RUN   yum install -y --nodocs --disableplugin=subscription-manager httpd && \
+      yum clean all --disableplugin=subscription-manager -y && \
+      echo "Hello from the httpd-parent container!" > /var/www/html/index.html
+
+# Allows child images to inject their own content into DocumentRoot
+
+
+# This stuff is needed to ensure a clean start
+
+
+
+# Run as the root user
+
+
+
+
+# Launch httpd
+
