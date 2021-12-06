@@ -3,7 +3,7 @@ FROM registry.access.redhat.com/ubi8/ubi:8.0
 MAINTAINER Red Hat Training <training@redhat.com>
 
 # DocumentRoot for Apache
-
+ONBUILD COPY /src/var/www/html
 
 
 RUN   yum install -y --nodocs --disableplugin=subscription-manager httpd && \
@@ -11,6 +11,21 @@ RUN   yum install -y --nodocs --disableplugin=subscription-manager httpd && \
       echo "Hello from the httpd-parent container!" > /var/www/html/index.html
 
 # Allows child images to inject their own content into DocumentRoot
+
+LABEL io.openshift.expose-services="8080:http"  &&\
+	io.openshift.tags="build,httpd,httpd-24"
+
+RUN sed -i "s/Listen 80/Listen 8080/g" /etc/httpd/conf/httpd.conf
+
+RUN chgr -R 0 /var/log/httpd /var/run/httpd  &&\
+	chmod g+Xrw /var/log/httpd /var/run/httpd
+
+
+EXPOSE 8080
+
+USER 1001
+
+CMD /usr/bin/run-http
 
 
 # This stuff is needed to ensure a clean start
