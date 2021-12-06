@@ -17,7 +17,7 @@ cp -Rf /tmp/src/*.html  ./
 
 echo "---> Creating info page"
 
-echo "tralialai  $(date "+%Y-%m-%d) " >> ./info.html
+echo "tralialai  $(date "+%Y-%m-%d") " >> ./info.html
 
 
 echo "Proudly served by Apache HTTP Server version $HTTPD_VERSION" >> ./info.html
